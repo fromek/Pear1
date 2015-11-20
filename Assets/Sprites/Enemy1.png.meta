@@ -1,0 +1,155 @@
+fileFormatVersion: 2
+guid: 02c565cc5deb05b4e883cbc910f66c6d
+timeCreated: 1447249286
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Enemy1_Body
+    21300002: Enemy1_LeftEye
+    21300004: Enemy1_RightEye
+    21300006: Enemy1_Lips
+    21300008: Enemy1_RightHand
+    21300010: Enemy1_LeftHand
+    21300012: Enemy1_LeftFoot
+    21300014: Enemy1_RightFoot
+    21300016: Enemy1_Hat
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Enemy1_Body
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 278
+        width: 1493
+        height: 1127
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy1_LeftEye
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 1585
+        width: 284
+        height: 340
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy1_RightEye
+      rect:
+        serializedVersion: 2
+        x: 1241
+        y: 1628
+        width: 190
+        height: 289
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy1_Lips
+      rect:
+        serializedVersion: 2
+        x: 1628
+        y: 1646
+        width: 211
+        height: 163
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy1_RightHand
+      rect:
+        serializedVersion: 2
+        x: 1788
+        y: 1228
+        width: 107
+        height: 121
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy1_LeftHand
+      rect:
+        serializedVersion: 2
+        x: 1740
+        y: 600
+        width: 185
+        height: 207
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy1_LeftFoot
+      rect:
+        serializedVersion: 2
+        x: 1620
+        y: 32
+        width: 408
+        height: 263
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy1_RightFoot
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 28
+        width: 370
+        height: 220
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy1_Hat
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 1422
+        width: 559
+        height: 606
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
