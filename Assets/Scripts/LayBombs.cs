@@ -16,7 +16,7 @@ public class LayBombs : MonoBehaviour {
     void Awake()
     {
         // Setting up the reference.
-        bombHUD = GameObject.Find("ui_bombHUD").GetComponent<GUITexture>();
+        //bombHUD = GameObject.Find("ui_bombHUD").GetComponent<GUITexture>();
     }
 
 
@@ -32,13 +32,13 @@ public class LayBombs : MonoBehaviour {
             bombLaid = true;
 
             // Play the bomb laying sound.
-            AudioSource.PlayClipAtPoint(bombsAway, transform.position);
+            //AudioSource.PlayClipAtPoint(bombsAway, transform.position);
 
             // Instantiate the bomb prefab.
             Instantiate(bomb, transform.position, transform.rotation);
         }
 
         // The bomb heads up display should be enabled if the player has bombs, other it should be disabled.
-        bombHUD.enabled = bombCount > 0;
+        //bombHUD.enabled = bombCount > 0;
     }
 }

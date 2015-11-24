@@ -18,7 +18,7 @@ public class Bomb : MonoBehaviour {
     void Awake()
     {
         // Setting up references.
-        explosionFX = GameObject.FindGameObjectWithTag("ExplosionFX").GetComponent<ParticleSystem>();
+        //explosionFX = GameObject.FindGameObjectWithTag("ExplosionFX").GetComponent<ParticleSystem>();
         if (GameObject.FindGameObjectWithTag("Player"))
             layBombs = GameObject.FindGameObjectWithTag("Player").GetComponent<LayBombs>();
     }
@@ -35,7 +35,7 @@ public class Bomb : MonoBehaviour {
     IEnumerator BombDetonation()
     {
         // Play the fuse audioclip.
-        AudioSource.PlayClipAtPoint(fuse, transform.position);
+        //AudioSource.PlayClipAtPoint(fuse, transform.position);
 
         // Wait for 2 seconds.
         yield return new WaitForSeconds(fuseTime);
@@ -74,14 +74,14 @@ public class Bomb : MonoBehaviour {
         }
 
         // Set the explosion effect's position to the bomb's position and play the particle system.
-        explosionFX.transform.position = transform.position;
-        explosionFX.Play();
+       // explosionFX.transform.position = transform.position;
+       // explosionFX.Play();
 
         // Instantiate the explosion prefab.
         Instantiate(explosion, transform.position, Quaternion.identity);
 
         // Play the explosion sound effect.
-        AudioSource.PlayClipAtPoint(boom, transform.position);
+        //AudioSource.PlayClipAtPoint(boom, transform.position);
 
         // Destroy the bomb.
         Destroy(gameObject);
