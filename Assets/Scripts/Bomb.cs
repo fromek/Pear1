@@ -45,6 +45,47 @@ public class Bomb : MonoBehaviour {
     }
 
 
+    private void DetectCollision(Collider2D[] colliders)
+    {
+        // For each collider...
+        foreach (Collider2D en in colliders)
+        {
+            // Check if it has a rigidbody (since there is only one per enemy, on the parent).
+            
+            bool canContinue = false;
+            if (en.tag == "Enemy")
+            {
+                en.gameObject.GetComponent<Enemy>().HP = 0;
+                canContinue = true;
+            }
+            if(en.tag == "Obstacle")
+            {
+                en.gameObject.GetComponent<ObstacleHealth>().HP = 0;
+                canContinue = true;
+            }
+            if (en.tag == "Bridge")
+            {
+                en.gameObject.GetComponent<BridgeHealth>().HP = 0;
+                canContinue = true;
+            }
+
+            if (canContinue)
+            {
+                Rigidbody2D rb = en.GetComponent<Rigidbody2D>();
+                if(rb != null)
+                {
+                    // Find a vector from the bomb to the enemy.
+                    Vector3 deltaPos = rb.transform.position - transform.position;
+
+                    // Apply a force in this direction with a magnitude of bombForce.
+                    Vector3 force = deltaPos.normalized * bombForce;
+                    rb.AddForce(force);
+                }
+                
+            }
+        }
+    }
+
     public void Explode()
     {
 
@@ -52,30 +93,13 @@ public class Bomb : MonoBehaviour {
         layBombs.bombLaid = false;
 
         // Find all the colliders on the Enemies layer within the bombRadius.
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, bombRadius, 1 << LayerMask.NameToLayer("Enemies"));
-
-        // For each collider...
-        foreach (Collider2D en in enemies)
-        {
-            // Check if it has a rigidbody (since there is only one per enemy, on the parent).
-            Rigidbody2D rb = en.GetComponent<Rigidbody2D>();
-            if (rb != null && rb.tag == "Enemy")
-            {
-                // Find the Enemy script and set the enemy's health to zero.
-                rb.gameObject.GetComponent<Enemy>().HP = 0;
-
-                // Find a vector from the bomb to the enemy.
-                Vector3 deltaPos = rb.transform.position - transform.position;
-
-                // Apply a force in this direction with a magnitude of bombForce.
-                Vector3 force = deltaPos.normalized * bombForce;
-                rb.AddForce(force);
-            }
-        }
-
+        DetectCollision(Physics2D.OverlapCircleAll(transform.position, bombRadius, 1 << LayerMask.NameToLayer("Enemies")));
+        DetectCollision(Physics2D.OverlapCircleAll(transform.position, bombRadius, 1 << LayerMask.NameToLayer("DestructibleObstacles")));
+        DetectCollision(Physics2D.OverlapCircleAll(transform.position, bombRadius, 1 << LayerMask.NameToLayer("DestructibleBridges")));
+        
         // Set the explosion effect's position to the bomb's position and play the particle system.
-       // explosionFX.transform.position = transform.position;
-       // explosionFX.Play();
+        // explosionFX.transform.position = transform.position;
+        // explosionFX.Play();
 
         // Instantiate the explosion prefab.
         Instantiate(explosion, transform.position, Quaternion.identity);
