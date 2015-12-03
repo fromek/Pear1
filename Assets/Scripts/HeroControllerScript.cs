@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HeroControllerScript : MonoBehaviour {
+public class HeroControllerScript : MonoBehaviour
+{
 
     public float maxSpeed = 10f;
     public bool facingRight = true;
@@ -15,14 +16,15 @@ public class HeroControllerScript : MonoBehaviour {
     public AudioClip JumpClip;
     private AudioSource audioSource;
     // Use this for initialization
-    void Start () {
-        if(anim == null)
+    void Start()
+    {
+        if (anim == null)
             anim = GetComponent<Animator>();
 
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
-	}
-	
+    }
+
     void FixedUpdate()
     {
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
@@ -40,21 +42,22 @@ public class HeroControllerScript : MonoBehaviour {
         else if (move < 0 && facingRight)
             Flip();
 
-        if(jump)
+        if (jump)
         {
             jump = false;
             anim.SetTrigger("Jump");
             audioSource.clip = JumpClip;
             audioSource.Play();
-            rb.AddForce(new Vector2(0f, jumpForce));     
+            rb.AddForce(new Vector2(0f, jumpForce));
         }
     }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            
+
             jump = true;
         }
     }

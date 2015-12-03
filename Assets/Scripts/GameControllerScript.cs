@@ -3,7 +3,6 @@ using System.Collections;
 
 public class GameControllerScript : MonoBehaviour {
 
-    private bool paused = false;
 	
 	// Update is called once per frame
 	void Update () {
