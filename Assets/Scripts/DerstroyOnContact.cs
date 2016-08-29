@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class DerstroyOnContact : MonoBehaviour {
 
@@ -27,6 +28,7 @@ public class DerstroyOnContact : MonoBehaviour {
         // ... pause briefly
         yield return new WaitForSeconds(2);
         // ... and then reload the level.
-        Application.LoadLevel("MainMenu");
+        SceneManager.LoadScene("MainMenu");
+        //Application.LoadLevel("MainMenu");
     }
 }

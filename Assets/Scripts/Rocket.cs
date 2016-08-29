@@ -35,14 +35,17 @@ public class Rocket : MonoBehaviour
         // If it hits an enemy...
         if (col.tag == "Enemy")
         {
-            // ... find the Enemy script and call the Hurt function.
-            col.gameObject.GetComponent<Enemy>().Hurt();
+            if (!col.GetComponent<Enemy>().IsFriend)
+            {
+                // ... find the Enemy script and call the Hurt function.
+                col.gameObject.GetComponent<Enemy>().Hurt();
 
-            // Call the explosion instantiation.
-            OnExplode();
+                // Call the explosion instantiation.
+                OnExplode();
 
-            // Destroy the rocket.
-            Destroy(gameObject);
+                // Destroy the rocket.
+                Destroy(gameObject);
+            }
         }
         else if (col.gameObject.tag == "Obstacle" && col.gameObject.GetComponent<ObstacleHealth>() != null)
         {

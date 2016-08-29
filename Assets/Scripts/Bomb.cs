@@ -53,7 +53,7 @@ public class Bomb : MonoBehaviour {
             // Check if it has a rigidbody (since there is only one per enemy, on the parent).
             
             bool canContinue = false;
-            if (en.tag == "Enemy")
+            if (en.tag == "Enemy" && !en.GetComponent<Enemy>().IsFriend)
             {
                 en.gameObject.GetComponent<Enemy>().HP = 0;
                 canContinue = true;
