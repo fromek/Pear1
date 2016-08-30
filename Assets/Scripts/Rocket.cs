@@ -5,7 +5,7 @@ public class Rocket : MonoBehaviour
 {
     public GameObject  explosion;        // Prefab of explosion effect.
     public ParticleSystem[] effects;
-
+    public int Damage = 1;
 
     void Start()
     {
@@ -38,7 +38,7 @@ public class Rocket : MonoBehaviour
             if (!col.GetComponent<Enemy>().IsFriend)
             {
                 // ... find the Enemy script and call the Hurt function.
-                col.gameObject.GetComponent<Enemy>().Hurt();
+                col.gameObject.GetComponent<Enemy>().Hurt(Damage);
 
                 // Call the explosion instantiation.
                 OnExplode();
@@ -49,7 +49,7 @@ public class Rocket : MonoBehaviour
         }
         else if (col.gameObject.tag == "Obstacle" && col.gameObject.GetComponent<ObstacleHealth>() != null)
         {
-            col.gameObject.GetComponent<ObstacleHealth>().Hurt();
+            col.gameObject.GetComponent<ObstacleHealth>().Hurt(Damage);
             OnExplode();
 
             // Destroy the rocket.

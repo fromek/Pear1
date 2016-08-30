@@ -71,7 +71,8 @@ public class HeroHealth : MonoBehaviour {
         GetComponent<Rigidbody2D>().AddForce(hurtVector * hurtForce);
 
         // Reduce the player's health by 10.
-        health -= damageAmount;
+        int enamyDamage = enemy.GetComponent<Enemy>().damage;
+        health -= enamyDamage;
 
         audioSource.clip = hurtClip;
         audioSource.Play();

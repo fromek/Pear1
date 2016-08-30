@@ -34,24 +34,62 @@ public class HeroControllerScript : MonoBehaviour
         Collider2D[] frontHits = Physics2D.OverlapCircleAll(groundCheck.position, groundRadius, 1 << LayerMask.NameToLayer(LayerName));
         foreach (Collider2D c in frontHits)
         {
-            if (c.tag == "Enemy" && Monster == null)
+            if (c.tag == "Enemy" && Monster == null && !relasingMonster)
             {
                 Enemy cEnemy = c.gameObject.GetComponent<Enemy>();
-                if (cEnemy != null && cEnemy.CanBeControlledByPlayer)
+                if (cEnemy != null && cEnemy.CanBeControlledByPlayer) //&& cEnemy.CanGetControll(new Vector2(groundCheck.position.x,groundCheck.position.y))
                 {
-                    Monster = cEnemy;
-                    //cEnemy.GetComponent<RelativeJoint2D>().enabled = true;
-                    //cEnemy.GetComponent<RelativeJoint2D>().linearOffset = new Vector2(0.2f, 0.25f);
-                    //cEnemy.GetComponent<RelativeJoint2D>().connectedBody = GetComponent<Rigidbody2D>();
-                    Monster.EnableRelativeJoint2D(true);
-                    Monster.SetConnectedBody(GetComponent<Rigidbody2D>());
-                    Monster.SetControll(true, direction);
+                    CatchMonster(cEnemy);
                 }
             }
 
         }
     }
 
+    void CatchMonster(Enemy en)
+    {
+        if (!relasingMonster)
+        {
+            Monster = en;
+            //cEnemy.GetComponent<RelativeJoint2D>().enabled = true;
+            //cEnemy.GetComponent<RelativeJoint2D>().linearOffset = new Vector2(0.2f, 0.25f);
+            //cEnemy.GetComponent<RelativeJoint2D>().connectedBody = GetComponent<Rigidbody2D>();
+            anim.SetBool("onMonster", true);
+            var rb = GetComponent<Rigidbody2D>();
+            //rb.position = pos;
+            //rb.position = new Vector2(Monster.GetComponent<Rigidbody2D>().position.x + Monster.transform.Find("Saddle").transform.position.x, Monster.GetComponent<Rigidbody2D>().position.y + Monster.transform.Find("Saddle").transform.position.y);// .GetComponent<Rigidbody2D>().position;
+            
+            //monster.playerCheck.GetComponent<CircleCollider2D>().OverlapPoint()
+            Monster.SetConnectedBody(GetComponent<Rigidbody2D>());
+            Vector2 pos = Monster.SetControll(true, direction);
+            Monster.EnableRelativeJoint2D(true);
+        }
+    }
+
+    private bool relasingMonster = false; 
+    void RelaseMonster()
+    {
+        if (Monster != null)
+        {
+            Monster.EnableRelativeJoint2D(false);
+            Monster.SetConnectedBody(null);
+            Vector2 pos = Monster.SetControll(false, direction);
+            var rb = GetComponent<Rigidbody2D>();
+            switch (direction)
+            {
+                case GameHelper.CharacterDirection.Right:
+                    rb.position = new Vector2(rb.position.x - 0.5f, rb.position.y + 2f);
+                    break;
+                case GameHelper.CharacterDirection.Left:
+                    rb.position = new Vector2(rb.position.x + 0.5f, rb.position.y + 2f);
+                    break;
+            }
+            
+            Monster = null;
+            anim.SetBool("onMonster", false);
+            relasingMonster = false;
+        }
+    }
 
     void FixedUpdate()
     {
@@ -65,7 +103,7 @@ public class HeroControllerScript : MonoBehaviour
         if (canContinue)
         {
             anim.SetFloat("vSpeed", rb.velocity.y);
-
+            
             anim.SetFloat("Speed", Mathf.Abs(move));
             rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
             if (Monster != null)
@@ -91,6 +129,10 @@ public class HeroControllerScript : MonoBehaviour
             }
           
         }
+        if (relasingMonster)
+        {
+            RelaseMonster();
+        }
     }
 
     // Update is called once per frame
@@ -100,6 +142,10 @@ public class HeroControllerScript : MonoBehaviour
         {
 
             SetJump(true);
+        }
+        if (Monster != null && Input.GetButtonDown("Fire3"))
+        {
+            relasingMonster = true;
         }
     }
 

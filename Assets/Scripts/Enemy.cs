@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour
+{
 
     public float moveSpeed = 1000f;
     public int HP = 2;
     public int damage = 1;
     public AudioClip deathClip;
-    public bool CanBeControlledByPlayer = false; 
+    public bool CanBeControlledByPlayer = false;
 
     private Transform frontCheck;
-    private Transform playerCheck;
+    public Transform playerCheck;
     private bool dead = false;
     private AudioSource audioSource;
     private bool isControlledByPlayer = false;
@@ -26,21 +27,29 @@ public class Enemy : MonoBehaviour {
         GetComponent<RelativeJoint2D>().linearOffset = new Vector2(RelativeJoint2D_Offset_X, RelativeJoint2D_Offset_Y);
         frontCheck = transform.Find("frontCheck").transform;
         playerCheck = transform.Find("playerCheck").transform;
+
         audioSource = GetComponent<AudioSource>();
         if (anim == null)
             anim = GetComponent<Animator>();
     }
 
-    public void SetControll(bool byHero, GameHelper.CharacterDirection direc)
+    public bool CanGetControll(Vector2 position)
     {
-        if(CanBeControlledByPlayer)
+        return transform.Find("Saddle").GetComponent<PolygonCollider2D>().OverlapPoint(position);
+    }
+    public Vector2 SetControll(bool byHero, GameHelper.CharacterDirection direc)
+    {
+        if (CanBeControlledByPlayer)
             isControlledByPlayer = byHero;
 
         if (direction != direc)
             Flip();
 
         IsFriend = isControlledByPlayer;
+        transform.Find("Saddle").gameObject.SetActive(byHero);// .GetComponent<SpriteRenderer>().enabled = true;
         anim.SetBool("IsControlledByPlayer", isControlledByPlayer);
+
+        return playerCheck.position;
     }
 
     void FixedUpdate()
@@ -60,14 +69,27 @@ public class Enemy : MonoBehaviour {
             Death();
     }
 
-    private void  CheckCollision(string LayerName)
+    private void CheckCollision(string LayerName)
     {
         if (!isControlledByPlayer)
         {
             Collider2D[] frontHits = Physics2D.OverlapPointAll(frontCheck.position, 1 << LayerMask.NameToLayer(LayerName));
             foreach (Collider2D c in frontHits)
             {
-                if (c.tag == "Enemy" || c.tag.Equals("Obstacle"))
+                if (c.tag == "Enemy")
+                {
+                    if (c.GetComponent<Enemy>().IsFriend)
+                    {
+                        c.GetComponent<Enemy>().Hurt(damage);
+                    }
+                    else
+                    {
+                        Flip();
+                        break;
+                    }
+
+                }
+                else if (c.tag.Equals("Obstacle"))
                 {
                     Flip();
                     break;
@@ -90,7 +112,7 @@ public class Enemy : MonoBehaviour {
     public void Jump(float jumpForce)
     {
         var rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(new Vector2(0f, jumpForce*30));
+        rb.AddForce(new Vector2(0f, jumpForce * 30));
     }
 
     public void Flip()
@@ -102,12 +124,12 @@ public class Enemy : MonoBehaviour {
             direction = GameHelper.CharacterDirection.Right;
 
         Vector3 enemyScale = transform.localScale;
-        enemyScale.x *= - 1;
+        enemyScale.x *= -1;
         transform.localScale = enemyScale;
-        if(isControlledByPlayer)
-        {
-            GetComponent<RelativeJoint2D>().linearOffset = new Vector2(GetComponent<RelativeJoint2D>().linearOffset.x * -1, GetComponent<RelativeJoint2D>().linearOffset.y);
-        }
+        //if(isControlledByPlayer)
+        //{
+        GetComponent<RelativeJoint2D>().linearOffset = new Vector2(GetComponent<RelativeJoint2D>().linearOffset.x * -1, GetComponent<RelativeJoint2D>().linearOffset.y);
+        //}
     }
 
     public void SetConnectedBody(Rigidbody2D body)
@@ -120,10 +142,10 @@ public class Enemy : MonoBehaviour {
         GetComponent<RelativeJoint2D>().enabled = enabled;
     }
 
-    public void Hurt()
+    public void Hurt(int takeDemage = 1)
     {
         // Reduce the number of hit points by one.
-        HP--;
+        HP-= takeDemage;
     }
 
     void Death()
@@ -148,8 +170,8 @@ public class Enemy : MonoBehaviour {
         {
             c.isTrigger = true;
         }
-        
-        if(audioSource != null)
+
+        if (audioSource != null)
         {
             audioSource.clip = deathClip;
             audioSource.Play();

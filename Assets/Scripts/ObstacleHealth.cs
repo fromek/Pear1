@@ -22,10 +22,10 @@ public class ObstacleHealth : MonoBehaviour {
             Death();
     }
 
-    public void Hurt()
+    public void Hurt(int damage =1)
     {
         // Reduce the number of hit points by one.
-        HP--;
+        HP-= damage;
     }
 
     void Death()
